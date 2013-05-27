@@ -1,0 +1,11 @@
+/*
+
+*.swp
+*.o
+*.d
+
+!src/
+!test/
+!tool/
+!.gitignore
+!Makefile
