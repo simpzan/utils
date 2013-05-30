@@ -65,16 +65,6 @@ bool loadTokensFromFile(const string &filename, vector<string> &tokens) {
   return true;
 }
 
-void benchmark(Function f, int count) {
-  Timer timer;
-  f();
-  timer.Stop();
-  cout << "cpu time(s):" << timer.ElapsedTimeCPU() / 1000000
-    << " avg(us):" << timer.ElapsedTimeCPU()/count << endl
-    << "wall time(s):" << timer.ElapsedTime() / 1000000
-    << " avg(us):" << timer.ElapsedTime()/count << endl;
-}
-
 int cmp(const char *l, const char *r) {
   int diff =0;
   while (*l && *r) {
@@ -99,4 +89,10 @@ int stringCompare(const void *arg1, const void *arg2) {
   return returnValue;
 }
 
-
+uint8_t computeLCP(const char *lastKey, const char *thisKey) {
+  int count = min(strlen(lastKey), strlen(thisKey));
+  for (int i = 0; i < count; ++i) {
+    if (lastKey[i] != thisKey[i])  return i;
+  }
+  return count;
+}

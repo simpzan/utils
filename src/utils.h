@@ -19,8 +19,7 @@ bool loadTokensFromFile(const std::string &filename,
 void splitString(const char *str, uint32_t len, char split, 
     std::vector<std::string> &tokens);
 
-typedef void (*Function)();
-void benchmark(Function f, int count = 1);
+uint8_t computeLCP(const char *lastKey, const char *thisKey);
 
 int cmp(const char *l, const char *r);
 int stringCompare(void const*, void const*);

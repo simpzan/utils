@@ -10,6 +10,7 @@ template <typename T>
 class Vector {
  public:
   Vector() {}
+  Vector(uint32_t count) {  _elements.resize(count);  }
   ~Vector() {}
 
   T &operator[](uint64_t index);
@@ -17,14 +18,14 @@ class Vector {
   T *data() {  return _elements.data();  }
   const T *data() const {  return _elements.data();  }
 
-  void insert(uint32_t pos, const T &value) {
-    _elements.insert(_elements.begin() + pos, value);
-  }
-  
   uint64_t count() const {  return _elements.size();  }
   uint64_t size() const;
 
   void display(std::ostream &os) const;
+
+  void insert(uint32_t pos, const T &value) {
+    _elements.insert(_elements.begin() + pos, value);
+  }
 
   void append(T element) {  _elements.push_back(element);  }
   void appendValues(const T *elements, int len);
