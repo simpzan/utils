@@ -1,6 +1,7 @@
 #ifndef DAC_WRAPPER_H
 #define DAC_WRAPPER_H
 
+#include <stdint.h>
 #include <cassert>
 #include <iostream>
 #include <fstream>
@@ -9,7 +10,9 @@
 class DACWrapper {
   public:
   DACWrapper() : _dac(NULL) {}
-  DACWrapper(uint32_t *array, int count) : _dac(createFT(array, count)) {}
+  DACWrapper(uint32_t *array, int count) : _dac(NULL) {
+    if (count && array)  _dac = createFT(array, count);
+  }
   ~DACWrapper();
 
   void write(std::ostream &os);

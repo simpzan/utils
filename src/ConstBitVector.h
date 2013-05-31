@@ -1,8 +1,9 @@
 #ifndef CONST_BIT_VECTOR_H
 #define CONST_BIT_VECTOR_H
 
-#include <iostream>
 #include <stdint.h>
+#include <limits.h>
+#include <iostream>
 #include "ConstVector.h"
 
 #define BIT_PER_BYTE 8

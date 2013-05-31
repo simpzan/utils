@@ -33,6 +33,10 @@ void allocateReadArray(istream &is, T *&values, int count) {
 }
 
 void DACWrapper::write(ostream &os) {
+  bool emptry = _dac == NULL;
+  writeValue(os, emptry);
+  if (emptry)  return;
+ 
   FTRep *dac = _dac;
   uint8_t nLevels = dac->nLevels;
   writeValue(os, dac->listLength);
@@ -57,6 +61,10 @@ void DACWrapper::write(ostream &os) {
 }
 
 void DACWrapper::read(istream &is) {
+  bool emptry = true;
+  readValue(is, emptry);
+  if (emptry)  return;
+
   FTRep *dac = (FTRep *)malloc(sizeof(FTRep));
   readValue(is, dac->listLength);
   readValue(is, dac->nLevels);
