@@ -1,5 +1,6 @@
 CC=g++
-CFLAGS=-O3  #-ggdb
+CFLAGS=-O3  
+CFLAGS=-ggdb
 SUFFIX=cpp
 INCLUDE= -I src/ -I ../include
 LIBS=-L ../lib -lleveldb -lDAC -pthread # -lmarisa -lsdsl

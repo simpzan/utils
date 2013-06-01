@@ -7,7 +7,7 @@ using namespace std;
 
 namespace {
 void convert2ByteVector(const vector<bool> &bits, Vector<uint8_t> &bytes) {
-	uint64_t bitCount = bits.size();
+	uint32_t bitCount = bits.size();
 	uint8_t tmp_byte = 0;
 	for (int bi = 0; bi < bitCount; bi++) {
 		int shift = bi % BIT_PER_BYTE;
@@ -26,7 +26,7 @@ void convert2ByteVector(const vector<bool> &bits, Vector<uint8_t> &bytes) {
 } // namespace
 
 void BitVectorBuilder::appendRank(bool bit) {
-	uint64_t count = _bits.size();
+	uint32_t count = _bits.size();
 	if (count % BIT_PER_BLOCK == 0) {
 		_ranks_block.append(_count_one);
 		_rank_block = _count_one;
@@ -43,7 +43,7 @@ void BitVectorBuilder::append(bool bit) {
 }
 
 void BitVectorBuilder::writeBoolVector(ostream &os, const vector<bool> &bits) {
-	uint64_t bitCount = bits.size();
+	uint32_t bitCount = bits.size();
 	os.write((char *)&bitCount, sizeof(bitCount));
 
 	Vector<uint8_t> bytes;
@@ -52,14 +52,17 @@ void BitVectorBuilder::writeBoolVector(ostream &os, const vector<bool> &bits) {
 }
 
 void BitVectorBuilder::write(ostream &os) {
+  //uint32_t pos = os.tellp();
 	this->writeBoolVector(os, _bits);
 
 	_ranks_block.write(os);
 	_ranks_unit.write(os);
+  //uint32_t diff = (uint32_t)os.tellp() - pos;
+  //cout << "BitVectorBuilder:" << diff << endl;
 }
 
 void BitVectorBuilder::display(ostream &os) {
-	uint64_t count = _bits.size();
+	uint32_t count = _bits.size();
 	cout << "bit count: " << count << endl;
 	for (int i = 0; i < count; i++) {
 		cout << (_bits[i] ? 1 : 0);
@@ -68,22 +71,22 @@ void BitVectorBuilder::display(ostream &os) {
 	cout << endl;
 }
 
-uint64_t BitVectorBuilder::size() {
-	uint64_t size = (_bits.size() + 7) / 8;
-	size += sizeof(uint64_t);
+uint32_t BitVectorBuilder::size() {
+	uint32_t size = (_bits.size() + 7) / 8;
+	size += sizeof(uint32_t);
 
 	size += _ranks_block.size();
 	size += _ranks_unit.size();
 	return size;
 }
 
-uint64_t BitVectorBuilder::sizeWithBitcount(uint32_t count) {
-  uint64_t count_byte = (count + 7) / 8;
-  uint64_t size_bits = Vector<uint8_t>::sizeWithCount(count_byte);
-  uint64_t count_ranks_block = count / BIT_PER_BLOCK + 1;
-  uint64_t size_ranks_block = Vector<uint32_t>::sizeWithCount(count_ranks_block);
+uint32_t BitVectorBuilder::sizeWithBitcount(uint32_t count) {
+  uint32_t count_byte = (count + 7) / 8;
+  uint32_t size_bits = Vector<uint8_t>::sizeWithCount(count_byte);
+  uint32_t count_ranks_block = count / BIT_PER_BLOCK + 1;
+  uint32_t size_ranks_block = Vector<uint32_t>::sizeWithCount(count_ranks_block);
   uint32_t count_ranks_unit = count_ranks_block * 3;
-  uint64_t size_ranks_unit = Vector<uint8_t>::sizeWithCount(count_ranks_unit);
+  uint32_t size_ranks_unit = Vector<uint8_t>::sizeWithCount(count_ranks_unit);
   return size_bits + size_ranks_block + size_ranks_unit;
 }
 

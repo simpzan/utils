@@ -12,7 +12,7 @@ class BalancedBitVectorBuilder : public BitVectorBuilder {
 	virtual void write(std::ostream &os);
 	virtual void clear();
 
-  static uint64_t sizeWithBitcount(uint64_t count);
+  static uint32_t sizeWithBitcount(uint32_t count);
 
   private:
 	BitVectorBuilder _is_fars;

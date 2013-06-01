@@ -16,17 +16,17 @@ class ConstVector {
   void clear();
   void display() const;
 
-  T &operator[](uint64_t index);
-  const T &operator[](uint64_t index) const;
+  T &operator[](uint32_t index);
+  const T &operator[](uint32_t index) const;
   T *data() {  return _elements;  }
   const T *data() const {  return _elements;  }
 
-  uint64_t count() const {  return _count;  }
-  uint64_t size() const;
+  uint32_t count() const {  return _count;  }
+  uint32_t size() const;
 
   private:
   bool _is_mmap;
-  uint64_t _count;
+  uint32_t _count;
   T *_elements;
 };
 
@@ -42,7 +42,7 @@ inline void ConstVector<T>::display() const {
 template <typename T>
 inline uint32_t ConstVector<T>::mmap(const uint8_t *address) {
   assert(address);
-  _count = *(uint64_t *)address;
+  _count = *(uint32_t *)address;
   _elements = (T *)(address + sizeof(_count));
   _is_mmap = true;
   return size();
@@ -53,7 +53,7 @@ inline void ConstVector<T>::read(std::istream &is) {
   _is_mmap = false;
   is.read((char *)&_count, sizeof(_count));
   _elements = new T[_count];
-  uint64_t size = sizeof(T) * _count;
+  uint32_t size = sizeof(T) * _count;
   is.read((char *)_elements, size);
 }
 
@@ -65,22 +65,22 @@ inline void ConstVector<T>::clear() {
 }
 
 template <typename T>
-inline T &ConstVector<T>::operator[](uint64_t index) {
+inline T &ConstVector<T>::operator[](uint32_t index) {
   assert(_elements);
   assert(index < _count);
   return _elements[index];
 }
 
 template <typename T>
-inline const T &ConstVector<T>::operator[](uint64_t index) const {
+inline const T &ConstVector<T>::operator[](uint32_t index) const {
   assert(_elements);
   assert(index < _count);
   return _elements[index];
 }
 
 template <typename T>
-inline uint64_t ConstVector<T>::size() const {
-  uint64_t size_elements = sizeof(T) * _count;
+inline uint32_t ConstVector<T>::size() const {
+  uint32_t size_elements = sizeof(T) * _count;
   return sizeof(_count) + size_elements;
 }
 

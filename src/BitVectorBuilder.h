@@ -16,9 +16,9 @@ public:
 	virtual void append(bool bit);
 	virtual void write(std::ostream &os);
 
-	uint64_t size();
-  static uint64_t sizeWithBitcount(uint32_t count);
-	uint64_t count()  {  return _bits.size();  }
+	uint32_t size();
+  static uint32_t sizeWithBitcount(uint32_t count);
+	uint32_t count()  {  return _bits.size();  }
 
 	virtual void clear();
 	void display(std::ostream &os);
@@ -39,8 +39,8 @@ private:
 	uint32_t _rank_block; // rank1 of the start of the block.
 };
 
-inline static uint64_t sizeWithBitcount(uint32_t count) {
-  uint64_t size = 0;
+inline static uint32_t sizeWithBitcount(uint32_t count) {
+  uint32_t size = 0;
 
   return size;
 }

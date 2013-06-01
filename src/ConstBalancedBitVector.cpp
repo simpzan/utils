@@ -154,8 +154,8 @@ static const uint8_t _table[8][256] = {
 };
 
 
-int32_t selectExcess(const ConstVector<uint8_t> &bytes, uint64_t id, int excess) {
-  uint64_t byte_id = id / BIT_PER_BYTE;
+int32_t selectExcess(const ConstVector<uint8_t> &bytes, uint32_t id, int excess) {
+  uint32_t byte_id = id / BIT_PER_BYTE;
   uint32_t offset = 0;
   int tmp_excess = excess;
   int i = 0;
@@ -192,30 +192,30 @@ uint32_t countOne(uint8_t byte, int bit_count) {
 
 } // namespace
 
-uint64_t ConstBalancedBitVector::_findCloseFar(uint64_t id) const {
+uint32_t ConstBalancedBitVector::_findCloseFar(uint32_t id) const {
   uint32_t is_far_id = rank0(id) - 1;
   uint32_t is_pioneer_id = _is_fars.rank1(is_far_id) - 1;
   int32_t pioneer_id = _is_pioneers.rank1(is_pioneer_id) - 1;
   if (pioneer_id < 0)  return count() - 1;
 
-  uint32_t pioneer = _pioneers[(uint64_t)pioneer_id] * BIT_PER_UNIT;
+  uint32_t pioneer = _pioneers[(uint32_t)pioneer_id] * BIT_PER_UNIT;
   int32_t excess_left = this->excess(id) - 1;
   int excess = this->excess(pioneer - 1) - excess_left;
-  uint64_t result = pioneer + selectExcess(bytes(), pioneer, excess);
+  uint32_t result = pioneer + selectExcess(bytes(), pioneer, excess);
   return result;
 }
 
-int32_t ConstBalancedBitVector::_findCloseNear(uint64_t id) const {
-  uint64_t tmp_id = id;
+int32_t ConstBalancedBitVector::_findCloseNear(uint32_t id) const {
+  uint32_t tmp_id = id;
   const ConstVector<uint8_t> &bytes = this->bytes();
 
   uint8_t bit_id = tmp_id % BIT_PER_BYTE;
-  uint64_t byte_id = tmp_id / BIT_PER_BYTE;
+  uint32_t byte_id = tmp_id / BIT_PER_BYTE;
   uint8_t byte = bytes[byte_id];
   uint8_t mask = ~(~0 << bit_id);
   byte |= mask;
 
-  uint64_t result = 0;
+  uint32_t result = 0;
   int32_t value = _table[bit_id][byte];
   if (value >= 8) {
     int excess = value - 7;
@@ -228,9 +228,9 @@ int32_t ConstBalancedBitVector::_findCloseNear(uint64_t id) const {
   return result;
 }
 
-uint64_t ConstBalancedBitVector::findClose(uint64_t id) const {
+uint32_t ConstBalancedBitVector::findClose(uint32_t id) const {
   assert(!bitAt(id));
-  uint64_t result = 0;
+  uint32_t result = 0;
   uint32_t is_far_id = rank0(id) - 1;
   if (_is_fars[is_far_id]) {
     result = _findCloseFar(id);
@@ -240,7 +240,7 @@ uint64_t ConstBalancedBitVector::findClose(uint64_t id) const {
   return result;
 }
 
-uint64_t ConstBalancedBitVector::findCloseNaive(uint64_t offset) const {
+uint32_t ConstBalancedBitVector::findCloseNaive(uint32_t offset) const {
   int count = 0;
   for (int i = offset + 1; i < this->count(); i++) {
     if (operator[](i)) {
@@ -253,7 +253,7 @@ uint64_t ConstBalancedBitVector::findCloseNaive(uint64_t offset) const {
   assert(false);
 }
 
-uint64_t ConstBalancedBitVector::findOpenNaive(uint64_t offset) const {
+uint32_t ConstBalancedBitVector::findOpenNaive(uint32_t offset) const {
   assert(operator[](offset));
   int count = 0;
   for (int i = offset - 1; i >= 0; --i) {
@@ -267,13 +267,13 @@ uint64_t ConstBalancedBitVector::findOpenNaive(uint64_t offset) const {
   assert(false);
 }
 
-uint64_t ConstBalancedBitVector::excess(uint64_t id) const {
-  uint64_t rank1 = this->rank1(id);
-  uint64_t rank0 = id + 1 - rank1;
+uint32_t ConstBalancedBitVector::excess(uint32_t id) const {
+  uint32_t rank1 = this->rank1(id);
+  uint32_t rank0 = id + 1 - rank1;
   return rank0 - rank1;
 }
 
-uint64_t ConstBalancedBitVector::encloseNaive(uint64_t id) const {
+uint32_t ConstBalancedBitVector::encloseNaive(uint32_t id) const {
   assert(0 < id && id < count());
   assert(!bitAt(id));
   int count = 0;

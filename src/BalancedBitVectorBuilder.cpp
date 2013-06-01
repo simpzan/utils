@@ -66,12 +66,15 @@ void buildFindCloseIndex(const vector<bool> &bits,
 } // namespace
 
 void BalancedBitVectorBuilder::write(ostream &os) {
+  //uint32_t pos = os.tellp();
 	buildFindCloseIndex(bits(), _is_fars, _is_pioneers, _pioneers);
 
 	BitVectorBuilder::write(os);
 	_is_fars.write(os);
 	_is_pioneers.write(os);
 	_pioneers.write(os);
+  //uint32_t diff = (uint32_t)os.tellp() - pos;
+  //cout << "BalancedBitVectorBuilder:" << diff << endl;
 }
 
 void BalancedBitVectorBuilder::clear() {
@@ -81,16 +84,16 @@ void BalancedBitVectorBuilder::clear() {
 	_pioneers.clear();
 }
 
-uint64_t BalancedBitVectorBuilder::sizeWithBitcount(uint64_t count) {
-  uint64_t size_parent = BitVectorBuilder::sizeWithBitcount(count);
+uint32_t BalancedBitVectorBuilder::sizeWithBitcount(uint32_t count) {
+  uint32_t size_parent = BitVectorBuilder::sizeWithBitcount(count);
 
-  uint64_t count_node = count / 2;
-  uint64_t size_is_fars = BitVectorBuilder::sizeWithBitcount(count_node);
+  uint32_t count_node = count / 2;
+  uint32_t size_is_fars = BitVectorBuilder::sizeWithBitcount(count_node);
 
   uint32_t count_far = count_node / 2;
   uint32_t size_is_pioneers = BitVectorBuilder::sizeWithBitcount(count_far);
 
-  uint32_t count_pioneer = count_far / BIT_PER_UNIT;
+  uint32_t count_pioneer = count_far / (BIT_PER_UNIT / BIT_PER_BYTE);
   uint32_t size_pioneers = Vector<uint32_t>::sizeWithCount(count_pioneer);
 
   return size_parent + size_is_fars + size_is_pioneers + size_pioneers;

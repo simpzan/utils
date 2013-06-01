@@ -6,35 +6,47 @@
 
 using namespace std;
 
+TEST(VectorTest, erase) {
+  Vector<char> v;
+  for (int i = 0; i < 20; ++i) {
+    v.append(i);
+  }
+  v.erase(0, 10);
+  for (int i = 0; i < 10; ++i) {
+    int expected = i + 10;
+    EXPECT_EQ(expected, v[i]);
+  }
+}
+
 TEST(VectorTest, append) {
-	Vector<char> v;
-	v.append('a');
-    EXPECT_EQ('a', v[0]);
+  Vector<char> v;
+  v.append('a');
+  EXPECT_EQ('a', v[0]);
 
-	uint64_t count = v.count();
-	EXPECT_EQ(1, count);
+  uint64_t count = v.count();
+  EXPECT_EQ(1, count);
 
-	uint64_t size = v.size();
-	EXPECT_GE(size, 0);
+  uint64_t size = v.size();
+  EXPECT_GE(size, 0);
 
-	v.clear();
-	count = v.count();
-	EXPECT_EQ(0, count);
+  v.clear();
+  count = v.count();
+  EXPECT_EQ(0, count);
 }
 
 TEST(VectorTest, readWrite) {
-	Vector<char> v;
-	v.append('a');
-	v.append('Z');
-	
-	std::stringstream ss;
-	v.write(ss);
+  Vector<char> v;
+  v.append('a');
+  v.append('Z');
 
-	Vector<char> v2;
-	v2.read(ss);
-	uint64_t count = v2.count();
-	EXPECT_EQ(2, count);
-	EXPECT_EQ('Z', v2[1]);
+  std::stringstream ss;
+  v.write(ss);
+
+  Vector<char> v2;
+  v2.read(ss);
+  uint64_t count = v2.count();
+  EXPECT_EQ(2, count);
+  EXPECT_EQ('Z', v2[1]);
 }
 
 TEST(VectorTest, ConstVectorTest) {

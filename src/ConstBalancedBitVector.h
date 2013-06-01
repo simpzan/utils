@@ -9,12 +9,12 @@ class ConstBalancedBitVector : public ConstBitVector {
   ConstBalancedBitVector() {}
   virtual ~ConstBalancedBitVector() {}
 
-  uint64_t findClose(uint64_t id) const;
-  uint64_t findCloseNaive(uint64_t id) const;
-  uint64_t findNextClose(uint64_t id) const;
-  uint64_t findOpenNaive(uint64_t id) const;
-  uint64_t excess(uint64_t id) const;
-  uint64_t encloseNaive(uint64_t id) const;
+  uint32_t findClose(uint32_t id) const;
+  uint32_t findCloseNaive(uint32_t id) const;
+  uint32_t findNextClose(uint32_t id) const;
+  uint32_t findOpenNaive(uint32_t id) const;
+  uint32_t excess(uint32_t id) const;
+  uint32_t encloseNaive(uint32_t id) const;
 
   virtual void read(std::istream &is);
   virtual uint32_t mmap(const uint8_t *address);
@@ -23,8 +23,8 @@ class ConstBalancedBitVector : public ConstBitVector {
   void display() const;
 
  private:
-  uint64_t _findCloseFar(uint64_t id) const;
-  int32_t _findCloseNear(uint64_t id) const;
+  uint32_t _findCloseFar(uint32_t id) const;
+  int32_t _findCloseNear(uint32_t id) const;
 
  private:
   ConstBitVector _is_fars;
