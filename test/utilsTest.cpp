@@ -18,7 +18,7 @@ TEST(utilsTest, test) {
 
 TEST(utilsTest, loadfile) {
   string file_content;
-  const char *file = "words.sorted";
+  const char *file = "/usr/share/dict/words";
   bool result = loadfile(file, file_content);
   EXPECT_TRUE(result);
   EXPECT_EQ(2493109, file_content.size());
