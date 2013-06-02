@@ -1,5 +1,4 @@
 CC=g++
-CFLAGS=-O3  
 CFLAGS=-ggdb
 SUFFIX=cpp
 INCLUDE= -I src/ -I ../include
@@ -65,6 +64,9 @@ uninstall:
 	rm -f ${INSTALLED_HEADERS}
 	rm -f ../lib/${BIN}
 .PHONY: uninstall
+
+release: CFLAGS = -O3
+release: all
 
 # just print several dummy lines.
 printSeparator:
