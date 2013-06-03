@@ -94,6 +94,7 @@ inline uint32_t Vector<T>::size() const {
 
 template <typename T>
 inline void Vector<T>::read(std::istream &is) {
+  clear();
   uint32_t count = 0;
   is.read((char *)&count, sizeof(count));
   _elements.resize(count);

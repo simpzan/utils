@@ -50,6 +50,7 @@ inline uint32_t ConstVector<T>::mmap(const uint8_t *address) {
 
 template <typename T>
 inline void ConstVector<T>::read(std::istream &is) {
+  clear();
   _is_mmap = false;
   is.read((char *)&_count, sizeof(_count));
   _elements = new T[_count];

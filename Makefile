@@ -66,7 +66,7 @@ uninstall:
 .PHONY: uninstall
 
 release: CFLAGS = -O3
-release: all
+release: install
 
 # just print several dummy lines.
 printSeparator:
