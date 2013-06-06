@@ -178,6 +178,8 @@ int32_t selectExcess(const ConstVector<uint8_t> &bytes, uint32_t id, int excess)
     ++byte_id;
     offset += 8;
   }
+  assert(false);
+  return -1;
 }
 
 
