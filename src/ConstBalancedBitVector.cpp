@@ -253,6 +253,7 @@ uint32_t ConstBalancedBitVector::findCloseNaive(uint32_t offset) const {
     }
   }
   assert(false);
+  return 0;
 }
 
 uint32_t ConstBalancedBitVector::findOpenNaive(uint32_t offset) const {
@@ -267,6 +268,7 @@ uint32_t ConstBalancedBitVector::findOpenNaive(uint32_t offset) const {
     }
   }
   assert(false);
+  return 0;
 }
 
 uint32_t ConstBalancedBitVector::excess(uint32_t id) const {

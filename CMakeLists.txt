@@ -14,11 +14,15 @@ link_directories(${PROJECT_SOURCE_DIR}/../DAC/build)
 file(GLOB SRC src/*.cpp)
 add_library(utils ${SRC})
 
-#link_directories(${testbed_SOURCE_DIR}/DAC)
 file(GLOB SRC_TEST test/*.cpp)
 add_executable(${UNIT_TEST_NAME} ${SRC_TEST})
 target_link_libraries(${UNIT_TEST_NAME} pthread gtest gtest_main)
 target_link_libraries(${UNIT_TEST_NAME} utils DAC)
+
+add_custom_target(test
+  COMMAND ${UNIT_TEST_NAME}
+  DEPENDS ${UNIT_TEST_NAME}
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 macro(addtool)
   file(GLOB SRC_TOOL tool/*.cpp)
@@ -26,7 +30,9 @@ macro(addtool)
     file(RELATIVE_PATH variable ${PROJECT_SOURCE_DIR}/tool ${tool})
     get_filename_component(variable ${variable} NAME_WE)
     add_executable(${variable} tool/${variable})
-    target_link_libraries(${variable} utils leveldb)
+    target_link_libraries(${variable} utils DAC leveldb sdsl marisa pthread snappy)
   endforeach(tool)
 endmacro(addtool)
 addtool()
+
+

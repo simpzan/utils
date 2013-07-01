@@ -5,6 +5,8 @@
 #include <fstream>
 #include <cstdlib>
 #include <cstring>
+#include <sys/stat.h>
+#include <errno.h>
 #include "timer.h"
 
 using namespace std;
@@ -95,4 +97,48 @@ uint8_t computeLCP(const char *lastKey, const char *thisKey) {
     if (lastKey[i] != thisKey[i])  return i;
   }
   return count;
+}
+
+uint32_t sizeOfFile(const char *filename) {
+  struct stat st;
+  if (stat(filename, &st) == 0)
+    return st.st_size;
+
+  fprintf(stderr, "Cannot determine size of %s: %s\n",
+      filename, strerror(errno));
+  return -1;
+}
+
+uint32_t insertString(const string &str, vector<string> &strs) {
+  vector<string>::iterator itr = find(strs.begin(), strs.end(), str);
+  if (itr != strs.end()) {
+    return itr - strs.begin() + 1;
+  }
+  strs.push_back(str);
+  return strs.size();
+}
+
+void reverseKey(const char *key, string &reversed_key) {
+  const uint8_t *akey = (const uint8_t *)key;
+  int count = strlen(key);
+  for (int i = 0; i < count; ++i) {
+    reversed_key =(char) akey[i] + reversed_key;
+  }
+}
+
+void shortestSeparator(const std::string &first, const std::string &second, 
+    std::string &separator) {
+  assert(first <= second);
+  int len = computeLCP(first.c_str(), second.c_str());
+  if (len == first.size()) {
+    separator = first.substr(0, len);
+    return;
+  }
+
+  if (len + 1 == first.size()) {
+    separator = first.substr(0, len + 1);
+    return;
+  }
+
+  separator = second.substr(0, len + 1);
 }

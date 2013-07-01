@@ -11,13 +11,19 @@ template <typename T>
 class Vector {
  public:
   Vector() {}
+  Vector(const Vector &aVector) : _elements(aVector._elements) {}
   Vector(uint32_t count) {  _elements.resize(count);  }
+  Vector(const std::vector<T> &v) {  
+    std::vector<T> v2(v);
+    _elements.swap(v2);
+  }
   ~Vector() {}
 
   T &operator[](uint32_t index);
   const T &operator[](uint32_t index) const;
   T *data() {  return _elements.data();  }
   const T *data() const {  return _elements.data();  }
+  std::vector<T> &vector() {  return _elements;  }
 
   uint32_t count() const {  return _elements.size();  }
   uint32_t size() const;
@@ -30,20 +36,30 @@ class Vector {
 
   void append(T element) {  _elements.push_back(element);  }
   void appendValues(const T *elements, int len);
-  void read(std::istream &is);
-  void write(std::ostream &os) const;
-  void clear() {  _elements.clear();  }
+  void appendValues(const std::vector<T> &values) {
+    appendValues(values.data(), values.size());
+  }
+  void clear();
   void erase(uint32_t pos, uint32_t count) {
     assert(pos < this->count());
     assert(pos + count <= this->count());
     _elements.erase(_elements.begin() + pos, _elements.begin() + pos + count);
   }
+  void swap(Vector<T> rhs) {  _elements.swap(rhs._elements);  }
 
+  void read(std::istream &is);
+  void write(std::ostream &os) const;
   static uint32_t sizeWithCount(uint32_t count);
 
  private:
   std::vector<T> _elements;
 };
+
+template <typename T>
+void Vector<T>::clear() {
+  std::vector<T> another;
+  _elements.swap(another);
+}
 
 template <typename T>
 void Vector<T>::appendValues(const T *elements, int len) {

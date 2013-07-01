@@ -32,6 +32,7 @@ uint32_t select(const ConstBitVector &bits, uint32_t count, bool bit) {
     }
   }
   assert(false);
+  return 0;
 }
 
 UnitT getPreviousUnit(const ConstVector<uint8_t> &bytes, uint32_t id) {

@@ -93,3 +93,10 @@ void DACWrapper::read(istream &is) {
   _dac = dac;
 }
 
+void DACWrapper::display(std::ostream &os) const {
+  os << "count: " << count() << std::endl;
+  for (int i = 0; i < count(); ++i) {
+    os << i << ":" << (*this)[i] << " ";
+  }
+  os << std::endl;
+}

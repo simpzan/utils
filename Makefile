@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=-ggdb
 SUFFIX=cpp
 INCLUDE= -I src/ -I ../include
-LIBS=-L ../lib -lleveldb -lDAC -pthread -lsnappy # -lmarisa -lsdsl
+LIBS=-L ../lib -lleveldb -pthread -lsnappy  -lmarisa -lsdsl
 BIN=libutils.a
 RUN=dfuds_trie
 

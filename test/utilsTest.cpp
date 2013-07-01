@@ -32,4 +32,17 @@ TEST(utilsTest, loadTokens) {
   EXPECT_EQ(235886, tokens.size());
 }
 
+TEST(utilsTest, separator) {
+  string first("Alexis");
+  string second("Antimason");
+  string separator;
+  shortestSeparator(first, second, separator);
+  EXPECT_TRUE(first <= separator && separator < second);
+  EXPECT_TRUE(separator.size() == 2);
+
+  first = "test";
+  second = "tester";
+  shortestSeparator(first, second, separator);
+  EXPECT_EQ(first, separator);
+}
 
