@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <sys/resource.h>
 #include <sys/time.h>
+#include <iostream>
 
 /** Timer class.
  */
@@ -73,6 +74,14 @@ class Timer {
     */
     double ElapsedTimeCPU() {
       return (final_ru.tv_sec - initial_ru.tv_sec) * 1000000 + (final_ru.tv_usec - initial_ru.tv_usec);
+    }
+
+    void Report(int count = 1) {
+      Stop();
+      std::cout << "cpu time(s):" << ElapsedTimeCPU() / 1000000
+        << " avg(us):" << ElapsedTimeCPU()/count << std::endl
+        << "wall time(s):" << ElapsedTime() / 1000000
+        << " avg(us):" << ElapsedTime()/count << std::endl;
     }
 
   protected:
