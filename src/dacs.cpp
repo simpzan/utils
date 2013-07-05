@@ -1,39 +1,44 @@
 #include "dacs.h"
 #include <assert.h>
-#include <vector>
-#include <algorithm>
-#include <iostream>
 
 #define FACT_RANK 20
 
 typedef unsigned long ulong;
-using namespace std;
 
-void display(uint *list, int count) {
+void display(uint *list, uint count) {
   for (int i = 0; i < count; ++i) {
-    cout << i << ":" << list[i] << "\t";
+    if (list[i])  printf("%d:%d\t", i, list[i]);
   }
-  cout << endl;
+  putchar('\n');
+  putchar('\n');
 }
+
 ushort * optimizationk(uint * list,int listLength, int * nkvalues){
-  vector<uint> v(list, list + listLength);
-  sort(v.begin(), v.end());
-  uint bit_max = bits(v.back()) - 1;
-  
-  vector<uint> count_int;
-  //count_int.push_back(0);
-  uint separator = 1;
+  const static int count = 64 + 1;
+  uint count_int_bit[count] = { 0 }; // count of int whose bit count is i.
   for (int i = 0; i < listLength; ++i) {
-    while (v[i] >= separator) {
-      separator <<= 1;
-      count_int.push_back(i);
+    uint count_bit = bits(list[i]);
+    ++count_int_bit[count_bit];
+  }
+  count_int_bit[1] += count_int_bit[0];
+  count_int_bit[0] = 0;
+  
+  int bit_max = 0;
+  for (int i = count - 1; i >= 0; --i) {
+    if (count_int_bit[i]) {
+      bit_max = i;
+      break;
     }
   }
-  count_int.push_back(listLength);
-  count_int[0] = 0;
-  
-  uint nBits = bit_max;
-  uint *fc = count_int.data();
+  assert(bit_max < 60);
+  uint count_int[count] = { 0 };
+  for (int i = 1; i < count; ++i) {
+    count_int[i] = count_int[i - 1] + count_int_bit[i];
+  }
+
+
+  uint * fc = count_int;
+  uint nBits = bit_max - 1;
 
   // 3 arrays. dynamic programming algorithm, see paper:
   // DACs: Bringing Direct Access to Variable-Length Codes.
@@ -84,7 +89,6 @@ ushort * optimizationk(uint * list,int listLength, int * nkvalues){
     t = t+b[t];
   }
 
-  //if (acumFreq)  free(acumFreq);
   free(l);
   free(b);
   free(s);
