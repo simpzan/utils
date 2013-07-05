@@ -84,7 +84,7 @@ uint bits (uint n)
 
 // returns e[p..p+len-1], assuming len <= W
 
-uint bitread (uint *e, uint p, uint len)
+uint bitread(uint *e, uint p, uint len)
 
 { uint answ;
   e += p/W; p %= W;

@@ -15,21 +15,22 @@ extern "C" {
 #include "bitrankw32int.h"
 
   typedef struct sFTRep {
-    uint listLength;
-    byte nLevels;
-    uint tamCode;
-    uint * levels;
-    uint * levelsIndex;
-    uint * iniLevel;
-    uint * rankLevels;
-    bitRankW32Int * bS;	
-    uint * base;
-    ushort * base_bits;
+    uint listLength;  // integer count
+    byte nLevels;     // chunk count ?
+
+    uint * iniLevel;  // the bit offset of each level of chunks.
+    ushort * base_bits;  // bit count in each level ofchunk
+    uint * levels;    // levels of chunk concatenated.
+    
+    uint * levelsIndex; // offset of each level of bitmap.
     uint * tablebase;
+    bitRankW32Int * bS;	
+
+    uint tamCode;     // 
     uint tamtablebase;
+    uint * rankLevels;
+    uint * base;
   } FTRep;
-
-
 
   // public:
   FTRep* createFT(uint *list,uint listLength);

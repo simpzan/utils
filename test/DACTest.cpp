@@ -10,8 +10,10 @@ TEST(DACTest, test) {
   int count = 1000000;
   uint32_t int_array[count];
   for (int i = 0; i < count; ++i) {
-    int_array[i] = i;
+    int_array[i] = rand()  % 10000;
   }
+  int_array[0] = 1000000;
+  int_array[1] = 1;
   
   DACWrapper dac(int_array, count);
   for (int i = 0; i < count; ++i) {
