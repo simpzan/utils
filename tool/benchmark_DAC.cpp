@@ -8,18 +8,25 @@
 
 using namespace std;
 
+void timing(int count, uint32_t max) {
+  cout << "count:" << count << " max:" << max << endl;
+  vector<uint32_t> int_array(count);
+  for (int i = 0; i < count; ++i) {
+    int_array[i] = rand()  % 10000;
+  }
+  int_array[0] = max;
+  int_array[1] = 1;
+  
+  Timer t;
+  DACWrapper dac(int_array);
+  t.Report();
+}
+
 int main(int argc, const char *argv[])
 {
-  int count = 100000000;
-  vector<uint32_t> list(count, 100);
-  list[0] = 1111011163;
-  list[1] = 0;
-  list[2] = 255;
-  list[3] = 15;
-
-  Timer t;
-  DACWrapper dac(list);
-  t.Report();
-
+  timing(100, 100);
+  timing(100, 100000000);
+  timing(100000000, 100);
+  timing(100000000, 100000000);
   return 0;
 }

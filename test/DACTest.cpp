@@ -3,8 +3,23 @@
 #include <gtest/gtest.h>
 #include "DACWrapper.h"
 #include "timer.h"
+#include "Vector.h"
 
 using namespace std;
+
+TEST(DACTest, debug) {
+  ifstream is("data_test/DAC.bug");
+  assert(is.good());
+  Vector<uint32_t> links;
+  links.read(is);
+
+  DACWrapper dac(links.vector());
+
+  int count = links.count();
+  for (int i = 0; i < count; ++i) {
+    ASSERT_EQ(links[i], dac[i]) << i;
+  }
+}
 
 TEST(DACTest, test) {
   int count = 1000000;

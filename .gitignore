@@ -10,3 +10,6 @@
 !.gitignore
 !Makefile
 !CMakeLists.txt
+
+!data_test/
+!data_test/DAC.bug

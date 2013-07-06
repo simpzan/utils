@@ -8,14 +8,13 @@
 #include <vector>
 #include "dacs.h"
 
-
 class DACWrapper {
   public:
   DACWrapper() : _dac(NULL) {}
   DACWrapper(uint32_t *array, int count) : _dac(NULL) {
     if (count && array)  _dac = createFT(array, count);
   }
-  DACWrapper(const std::vector<uint32_t> &v) {
+  DACWrapper(const std::vector<uint32_t> &v) : _dac(NULL) {
     int size = v.size();
     if (size== 0)  return;
     _dac = createFT((uint32_t *)v.data(), size);
