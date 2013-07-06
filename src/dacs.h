@@ -23,12 +23,13 @@ extern "C" {
     uint * levels;    // levels of chunk concatenated.
     
     uint * levelsIndex; // offset of each level of bitmap.
+    uint * rankLevels;
+
     uint * tablebase;
     bitRankW32Int * bS;	
 
     uint tamCode;     // 
     uint tamtablebase;
-    uint * rankLevels;
     uint * base;
   } FTRep;
 

@@ -106,7 +106,7 @@ FTRep* createFT(uint *list,uint listLength){
   ushort* kvalues = optimizationk(list,listLength,&nkvalues);
 
   // fill tamtablebase ?
-  ushort kval;
+  uint kval;
   uint oldval =0;
   uint newval =0;
   register uint i=0;

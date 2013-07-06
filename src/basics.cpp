@@ -75,7 +75,6 @@ void *Realloc (void *p, int n)
 // bits needed to represent a number between 0 and n
 
 uint bits (uint n)
-
 { uint b = 0;
   while (n)
   { b++; n >>= 1; }
