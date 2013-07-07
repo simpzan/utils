@@ -65,7 +65,7 @@ uninstall:
 	rm -f ../lib/${BIN}
 .PHONY: uninstall
 
-release: CFLAGS = -O3
+release: CFLAGS = -O3 -DNDEBUG
 release: install
 
 # just print several dummy lines.
