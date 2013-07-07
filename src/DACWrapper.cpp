@@ -61,6 +61,7 @@ void DACWrapper::write(ostream &os) {
 }
 
 void DACWrapper::read(istream &is) {
+  clear();
   bool emptry = true;
   readValue(is, emptry);
   if (emptry)  return;
