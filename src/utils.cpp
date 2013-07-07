@@ -36,8 +36,10 @@ bool loadfile(const char *file, string &file_content) {
 
 void splitString(const char *str, uint32_t len, char split, 
     std::vector<std::string> &tokens) { 
-  int previousI = 0;
+  uint32_t size_guess = len / 16;
+  tokens.reserve(size_guess);
 
+  int previousI = 0;
   for (uint32_t si=0; si<len; ++si ) {
     if (str[si] == split) {
       int token_len = si - previousI;
